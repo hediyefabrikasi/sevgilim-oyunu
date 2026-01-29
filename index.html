@@ -2,693 +2,549 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Sevgilim Beni Ne Kadar Tanıyor? ❤️</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Sevgilim Beni Ne Kadar Tanıyor?</title>
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --bg1: #ff6b81;
+      --bg2: #ffb8c6;
+      --card-bg: rgba(255,255,255,0.95);
+      --accent: #ff3b5c;
+      --text-dark: #333;
+      --radius: 20px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overscroll-behavior: none;
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff4d6d);
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right)
-               env(safe-area-inset-bottom) env(safe-area-inset-left);
-      transition: background 0.3s ease;
+      align-items: flex-start;
+      padding: env(safe-area-inset-top) 12px 24px;
+      color: var(--text-dark);
     }
 
     .app {
       width: 100%;
-      max-width: 430px;
-      height: calc(var(--vh, 1vh) * 100);
-      max-height: 780px;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(14px);
-      border-radius: 24px;
-      padding: 14px 14px 16px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      max-width: 420px;
     }
 
+    /* ---------- HEADER ---------- */
     .header {
-      flex-shrink: 0;
+      margin-top: 28px; /* 🔽 Üstten aşağı aldık */
+      margin-bottom: 16px;
       text-align: center;
-      margin-bottom: 8px;
+      color: white;
     }
 
     .title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0 0 10px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
 
     .top-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 6px;
-      margin-bottom: 8px;
-      font-size: 12px;
-      font-weight: 500;
+      align-items: center;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+    }
+
+    .top-left, .top-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .pill {
-      background: rgba(255,255,255,0.25);
-      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      color: #ff3b5c;
       padding: 4px 10px;
-      display: inline-flex;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      display: flex;
       align-items: center;
       gap: 4px;
-      min-width: 54px;
-      justify-content: center;
+      cursor: default;
+      user-select: none;
     }
 
-    .theme-selector {
-      display: flex;
-      gap: 6px;
-    }
-
-    .theme-btn {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.7);
+    .pill.clickable {
       cursor: pointer;
-      opacity: 0.9;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
 
-    .theme-btn.active {
-      outline: 2px solid #fff;
-      opacity: 1;
+    .pill.clickable:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
-    .progress-wrap {
-      width: 100%;
-      height: 6px;
-      background: rgba(255,255,255,0.25);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #fff, #ffd6e2);
-      transition: width 0.3s ease;
-    }
-
-    #screen {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    /* ---------- GAME CARD ---------- */
     .card {
-      width: 100%;
-      background: rgba(255,255,255,0.96);
-      border-radius: 20px;
-      padding: 14px 12px;
-      color: #ff2f5a;
-      text-align: center;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
-      animation: fadeUp 0.35s ease;
-      display: flex;
-      flex-direction: column;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.4s ease;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .photo-wrap {
+    .image-box {
       width: 100%;
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      background: #eee;
       aspect-ratio: 4 / 3;
-      flex-shrink: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .photo {
+    .image-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
     .question {
-      font-size: 14.5px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: #ff2f5a;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      line-height: 1.35;
+      text-align: center;
     }
 
     .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
-    button.option-btn {
+    .option-btn {
       border: none;
       border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 14.5px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #ff4d6d, #ff758c);
-      color: #fff;
+      padding: 14px 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff3b5c, #ff7a90);
+      color: white;
       cursor: pointer;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
-      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
-      min-height: 44px;
+      box-shadow: 0 6px 16px rgba(255,59,92,0.35);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
     }
 
-    button.option-btn:active {
+    .option-btn.secondary {
+      background: linear-gradient(135deg, #6c757d, #9aa0a6);
+      box-shadow: 0 6px 16px rgba(108,117,125,0.35);
+    }
+
+    .option-btn:active {
       transform: scale(0.97);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
     }
 
-    button.option-btn.disabled {
-      pointer-events: none;
-      opacity: 0.6;
+    .option-btn.correct {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      box-shadow: 0 6px 16px rgba(46,204,113,0.35);
     }
 
-    .wrong-screen h2 {
-      margin: 4px 0 6px;
-      font-size: 18px;
-      color: #ff4d6d;
+    .option-btn.wrong {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      box-shadow: 0 6px 16px rgba(231,76,60,0.35);
     }
 
-    .wrong-message {
-      font-size: 13.5px;
+    /* ---------- FOOTER / RESTART ---------- */
+    .center {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .restart-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      background: white;
+      color: #ff3b5c;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .restart-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    }
+
+    /* ---------- THEME MODAL ---------- */
+    .theme-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 20px;
+    }
+
+    .theme-modal.active {
+      display: flex;
+    }
+
+    .theme-box {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      animation: pop 0.25s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .theme-title {
+      font-size: 1.2rem;
+      font-weight: 800;
       margin-bottom: 12px;
-      color: #ff2f5a;
+      text-align: center;
     }
 
-    .restart-btn, .start-btn {
+    .theme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .theme-btn {
       border: none;
       border-radius: 14px;
-      padding: 12px 16px;
-      font-size: 14.5px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #ff4d6d, #ff758c);
-      color: #fff;
+      padding: 14px 10px;
+      font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
-      min-height: 44px;
+      color: white;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
 
-    .final-screen h1 {
-      margin: 4px 0 6px;
-      font-size: 20px;
-      color: #ff2f5a;
+    .theme-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
     }
 
-    .final-message {
-      font-size: 14px;
-      margin: 8px 0;
-      color: #ff4d6d;
+    .theme-romantic { background: linear-gradient(135deg, #ff6b81, #ffb8c6); }
+    .theme-night    { background: linear-gradient(135deg, #141e30, #243b55); }
+    .theme-sunset   { background: linear-gradient(135deg, #ff512f, #dd2476); }
+    .theme-ocean    { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+
+    /* ---------- RESULT SCREEN ---------- */
+    .result {
+      text-align: center;
+      padding: 16px 8px;
+      animation: fadeIn 0.4s ease;
     }
 
-    .signature {
-      font-size: 13.5px;
-      margin-top: 6px;
-      color: #ff758c;
-    }
-
-    .heart {
-      font-size: 44px;
-      animation: pulse 1.1s infinite;
-      margin-bottom: 6px;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-
-    .confetti {
-      position: absolute;
-      top: -12px;
-      width: 8px;
-      height: 8px;
-      opacity: 0.85;
-      animation: fall 2.8s linear forwards;
-      border-radius: 2px;
-      pointer-events: none;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(800px) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .intro-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #ff2f5a;
-    }
-
-    .intro-message {
-      font-size: 13.5px;
-      margin-bottom: 12px;
-      color: #ff4d6d;
-    }
-
-    .timer {
-      font-weight: 700;
-    }
-
-    .score {
-      font-weight: 700;
+    .result h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ff3b5c;
     }
 
     .stars {
-      display: flex;
-      justify-content: center;
-      gap: 4px;
-      margin: 6px 0;
-      font-size: 22px;
+      font-size: 1.8rem;
+      margin: 8px 0 14px;
+    }
+
+    /* ---------- SMALL DEVICES ---------- */
+    @media (max-width: 360px) {
+      .title { font-size: 1.6rem; }
+      .pill { font-size: 0.7rem; padding: 4px 8px; }
+      .option-btn { font-size: 0.9rem; padding: 12px 10px; }
     }
   </style>
 </head>
 <body>
-
-<div class="app">
-  <div class="header">
-    <div class="title">❤️ Sevgilim Beni Ne Kadar Tanıyor?</div>
-    <div class="top-bar">
-      <div class="pill">⏱ <span id="timer">-</span>s</div>
-      <div class="pill">⭐ <span id="score">0</span></div>
-      <div class="theme-selector" id="themeSelector"></div>
+  <div class="app">
+    <!-- HEADER -->
+    <div class="header">
+      <h1 class="title">💖 Sevgilim Beni Ne Kadar Tanıyor?</h1>
+      <div class="top-bar">
+        <div class="top-left">
+          <div class="pill">⏱ <span id="time">0</span>s</div>
+          <div class="pill">🏆 <span id="score">0</span></div>
+        </div>
+        <div class="top-right">
+          <div class="pill clickable" onclick="toggleSound()">🔊</div>
+          <div class="pill clickable" onclick="openTheme()">🎨 Tema</div>
+        </div>
+      </div>
     </div>
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progressBar"></div>
+
+    <!-- GAME CARD -->
+    <div class="card" id="game-card"></div>
+  </div>
+
+  <!-- THEME MODAL -->
+  <div class="theme-modal" id="theme-modal">
+    <div class="theme-box">
+      <div class="theme-title">🎨 Tema Seç</div>
+      <div class="theme-grid">
+        <button class="theme-btn theme-romantic" onclick="setTheme('romantic')">Romantik</button>
+        <button class="theme-btn theme-night" onclick="setTheme('night')">Gece</button>
+        <button class="theme-btn theme-sunset" onclick="setTheme('sunset')">Gün Batımı</button>
+        <button class="theme-btn theme-ocean" onclick="setTheme('ocean')">Okyanus</button>
+      </div>
     </div>
   </div>
-  <div id="screen"></div>
-</div>
 
-<!-- 🎵 AUDIO -->
-<audio id="bgMusic" preload="auto" loop></audio>
-<audio id="correctSound" preload="auto"></audio>
-<audio id="wrongSound" preload="auto"></audio>
-<audio id="clickSound" preload="auto"></audio>
+  <!-- AUDIO -->
+  <audio id="correctSound" src="audios/correct.mp3" preload="auto"></audio>
+  <audio id="wrongSound" src="audios/wrong.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="audios/bg.mp3" preload="auto" loop></audio>
 
-<script>
-/* ==========================
-   🎯 KİŞİSELLEŞTİRME ALANI
-   ========================== */
-const gameData = {
-  playerName: "Oğuzhan",
-  senderName: "Didem",
-  introMessage: "Hazır mısın? Bakalım beni gerçekten ne kadar tanıyorsun 😏❤️",
-
-  settings: {
-    timePerQuestion: 10
-  },
-
-  themes: {
-    romantic: {
-      name: "Romantik",
-      bg: "linear-gradient(135deg, #ff758c, #ff4d6d)",
-      cardBg: "rgba(255,255,255,0.96)",
-      primary: "#ff4d6d"
-    },
-    night: {
-      name: "Gece",
-      bg: "linear-gradient(135deg, #1f1c2c, #928dab)",
-      cardBg: "rgba(255,255,255,0.94)",
-      primary: "#6c63ff"
-    },
-    pastel: {
-      name: "Pastel",
-      bg: "linear-gradient(135deg, #fbc2eb, #a6c1ee)",
-      cardBg: "rgba(255,255,255,0.96)",
-      primary: "#7c83fd"
-    }
-  },
-
-  defaultTheme: "romantic",
-
-  audio: {
-    bgMusic: "audios/bg.mp3",
-    correct: "audios/correct.mp3",
-    wrong: "audios/wrong.mp3",
-    click: "audios/click.mp3"
-  },
-
-  questions: [
-    {
-      image: "images/q1.jpg",
-      question: "Bu fotoğraf hangi anımızdan? 📸",
-      options: ["İlk buluşmamız", "Doğum günü sürprizim"],
-      correct: 0,
-      wrongMessage: "Hayır 😅 O günü unutamazsın!"
-    },
-    {
-      image: "images/q2.jpg",
-      question: "Burada en çok ne yapıyorduk? 💕",
-      options: ["Gezmeye çıkmıştık", "Film izliyorduk"],
-      correct: 0,
-      wrongMessage: "Yanlış 😏 Baştan deneyelim."
-    },
-    {
-      image: "images/q3.jpg",
-      question: "Bu fotoğraf hangi şehirde çekildi? 🌍",
-      options: ["İstanbul", "İzmir"],
-      correct: 0,
-      wrongMessage: "Olmadı 😅 Baştan."
-    },
-    {
-      image: "images/q4.jpg",
-      question: "Bu anı kim çekmişti? 📷",
-      options: ["Arkadaşımız", "Garson"],
-      correct: 1,
-      wrongMessage: "Yanlış 😏 Baştan."
-    },
-    {
-      image: "images/q5.jpg",
-      question: "Bu fotoğraftan sonra nereye gitmiştik? ✈️",
-      options: ["Yemeğe", "Sinemaya"],
-      correct: 0,
-      wrongMessage: "Hayır 😅 Baştan."
-    },
-    {
-      image: "images/q6.jpg",
-      question: "Bu fotoğraftaki halimi neden seviyordun? 😍",
-      options: ["Gülüşüm", "Bakışım"],
-      correct: 0,
-      wrongMessage: "Yanlış 😏 Baştan."
-    },
-    {
-      image: "images/q7.jpg",
-      question: "Bu günü nasıl hatırlıyorsun? 💌",
-      options: ["Çok romantikti", "Çok eğlenceliydi"],
-      correct: 0,
-      wrongMessage: "Bence romantikti 😏 Baştan."
-    },
-    {
-      image: "images/q8.jpg",
-      question: "Bu fotoğraf hangi mevsimde çekildi? 🍂🌸",
-      options: ["Sonbahar", "İlkbahar"],
-      correct: 1,
-      wrongMessage: "Yanlış 😅 Baştan."
-    },
-    {
-      image: "images/q9.jpg",
-      question: "Burada en çok neyi konuşuyorduk? 💬",
-      options: ["Gelecek planlarımızı", "O günü"],
-      correct: 0,
-      wrongMessage: "Hayır 😏 Baştan."
-    },
-    {
-      image: "images/q10.jpg",
-      question: "Bu oyunu kim hazırladı? 😍",
-      options: ["Ben", "Seni çok seven sevgilin ❤️"],
-      correct: 1,
-      wrongMessage: "Bu soru kaçmaz 😅 Baştan."
-    }
-  ],
-
-  finalTitle: "Tebrikler! 🎉",
-  finalMessage: "Beni gerçekten çok iyi tanıyorsun ❤️ İyi ki varsın!"
-};
-/* ========================== */
-
-const screen = document.getElementById("screen");
-const progressBar = document.getElementById("progressBar");
-const timerEl = document.getElementById("timer");
-const scoreEl = document.getElementById("score");
-const themeSelector = document.getElementById("themeSelector");
-
-const bgMusic = document.getElementById("bgMusic");
-const correctSound = document.getElementById("correctSound");
-const wrongSound = document.getElementById("wrongSound");
-const clickSound = document.getElementById("clickSound");
-
-let currentIndex = 0;
-let score = 0;
-let timer = null;
-let timeLeft = gameData.settings.timePerQuestion;
-let currentTheme = gameData.defaultTheme;
-let audioUnlocked = false;
-
-/* ---------- MOBILE VIEWPORT FIX ---------- */
-function setVH() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
-}
-window.addEventListener("resize", setVH);
-setVH();
-
-/* ---------- AUDIO SETUP (Mobile Safe) ---------- */
-function unlockAudio() {
-  if (audioUnlocked) return;
-  audioUnlocked = true;
-  bgMusic.src = gameData.audio.bgMusic;
-  correctSound.src = gameData.audio.correct;
-  wrongSound.src = gameData.audio.wrong;
-  clickSound.src = gameData.audio.click;
-  bgMusic.volume = 0.35;
-  correctSound.volume = 0.7;
-  wrongSound.volume = 0.7;
-  clickSound.volume = 0.6;
-  bgMusic.play().then(() => bgMusic.pause()).catch(()=>{});
-}
-
-/* ---------- THEME ---------- */
-function applyTheme(themeKey) {
-  const theme = gameData.themes[themeKey];
-  if (!theme) return;
-  currentTheme = themeKey;
-  document.body.style.background = theme.bg;
-  document.querySelectorAll(".option-btn, .start-btn, .restart-btn").forEach(btn => {
-    btn.style.background = `linear-gradient(135deg, ${theme.primary}, ${theme.primary}cc)`;
-  });
-  document.querySelectorAll(".card").forEach(card => {
-    card.style.background = theme.cardBg;
-  });
-  document.querySelectorAll(".theme-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.theme === themeKey);
-  });
-}
-
-function buildThemeSelector() {
-  themeSelector.innerHTML = "";
-  Object.entries(gameData.themes).forEach(([key, theme]) => {
-    const btn = document.createElement("div");
-    btn.className = "theme-btn";
-    btn.dataset.theme = key;
-    btn.title = theme.name;
-    btn.style.background = theme.bg;
-    btn.onclick = () => {
-      unlockAudio();
-      playClick();
-      applyTheme(key);
-    };
-    themeSelector.appendChild(btn);
-  });
-}
-
-/* ---------- PROGRESS ---------- */
-function updateProgress() {
-  const percent = (currentIndex / gameData.questions.length) * 100;
-  progressBar.style.width = percent + "%";
-}
-
-/* ---------- TIMER ---------- */
-function startTimer() {
-  clearInterval(timer);
-  timeLeft = gameData.settings.timePerQuestion;
-  timerEl.textContent = timeLeft;
-  timer = setInterval(() => {
-    timeLeft--;
-    timerEl.textContent = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      playWrong();
-      showWrong("Süren doldu 😅 Baştan deniyoruz ❤️");
-    }
-  }, 1000);
-}
-
-/* ---------- SCREENS ---------- */
-function showIntro() {
-  clearInterval(timer);
-  progressBar.style.width = "0%";
-  timerEl.textContent = "-";
-  scoreEl.textContent = score;
-  screen.innerHTML = `
-    <div class="card intro-screen">
-      <div class="heart">❤️</div>
-      <div class="intro-title">${gameData.playerName},</div>
-      <div class="intro-message">${gameData.introMessage}</div>
-      <button class="start-btn" onclick="startGame()">Oyuna Başla 🎮</button>
-    </div>
-  `;
-  applyTheme(currentTheme);
-}
-
-function startGame() {
-  unlockAudio();
-  playClick();
-  currentIndex = 0;
-  score = 0;
-  scoreEl.textContent = score;
-  bgMusic.currentTime = 0;
-  bgMusic.play().catch(()=>{});
-  showQuestion();
-}
-
-function showQuestion() {
-  updateProgress();
-  const q = gameData.questions[currentIndex];
-  screen.innerHTML = `
-    <div class="card">
-      <div class="photo-wrap">
-        <img class="photo" src="${q.image}" alt="">
-      </div>
-      <div class="question">${currentIndex + 1}. ${q.question}</div>
-      <div class="options">
-        <button class="option-btn" onclick="selectOption(0)">${q.options[0]}</button>
-        <button class="option-btn" onclick="selectOption(1)">${q.options[1]}</button>
-      </div>
-    </div>
-  `;
-  applyTheme(currentTheme);
-  startTimer();
-}
-
-function disableOptions() {
-  document.querySelectorAll(".option-btn").forEach(btn => {
-    btn.classList.add("disabled");
-  });
-}
-
-function selectOption(index) {
-  unlockAudio();
-  playClick();
-  disableOptions();
-  clearInterval(timer);
-  const q = gameData.questions[currentIndex];
-  if (index === q.correct) {
-    playCorrect();
-    score++;
-    scoreEl.textContent = score;
-    setTimeout(() => {
-      currentIndex++;
-      if (currentIndex < gameData.questions.length) {
-        showQuestion();
-      } else {
-        showFinal();
+  <script>
+    /* ---------------- QUESTIONS ---------------- */
+    const questions = [
+      {
+        text: "İlk tanıştığımız yeri hatırlıyor mu?",
+        image: "images/q1.jpg",
+        options: ["Kafede tanıştık", "Online tanıştık"],
+        correct: 1
+      },
+      {
+        text: "En sevdiğim tatlı hangisi?",
+        image: "images/q2.jpg",
+        options: ["Tiramisu", "Cheesecake"],
+        correct: 0
+      },
+      {
+        text: "Beni en çok mutlu eden küçük şey nedir?",
+        image: "images/q3.jpg",
+        options: ["Sabah mesajı", "Sürpriz hediye"],
+        correct: 0
+      },
+      {
+        text: "En sevdiğim tatil türü hangisi?",
+        image: "images/q4.jpg",
+        options: ["Deniz tatili", "Doğa kaçamağı"],
+        correct: 1
+      },
+      {
+        text: "Birlikte izlemeyi en sevdiğimiz şey?",
+        image: "images/q5.jpg",
+        options: ["Romantik film", "Komedi dizisi"],
+        correct: 1
+      },
+      {
+        text: "En çok hangi hediyeye duygulanırım?",
+        image: "images/q6.jpg",
+        options: ["El yazısı mektup", "Pahalı hediye"],
+        correct: 0
+      },
+      {
+        text: "En sevdiğim müzik türü?",
+        image: "images/q7.jpg",
+        options: ["Pop", "Slow / Romantik"],
+        correct: 1
+      },
+      {
+        text: "Beni en çok güldüren şey?",
+        image: "images/q8.jpg",
+        options: ["Komik videolar", "İç şakalarımız"],
+        correct: 1
+      },
+      {
+        text: "Birlikte yapmak istediğim hayal?",
+        image: "images/q9.jpg",
+        options: ["Dünya turu", "Birlikte ev kurmak"],
+        correct: 1
+      },
+      {
+        text: "Sence seni neden bu kadar seviyorum?",
+        image: "images/q10.jpg",
+        options: ["Yakışıklı olduğun için", "Kalbin güzel olduğu için"],
+        correct: 1
       }
-    }, 450);
-  } else {
-    playWrong();
-    setTimeout(() => {
-      showWrong(q.wrongMessage);
-    }, 450);
-  }
-}
+    ];
 
-function showWrong(message) {
-  clearInterval(timer);
-  screen.innerHTML = `
-    <div class="card wrong-screen">
-      <div class="heart">💔</div>
-      <h2>Yanlış Cevap</h2>
-      <div class="wrong-message">${message}</div>
-      <button class="restart-btn" onclick="showIntro()">Başa Dön 🔄</button>
-    </div>
-  `;
-  applyTheme(currentTheme);
-}
+    /* ---------------- STATE ---------------- */
+    let current = 0;
+    let score = 0;
+    let timer = 0;
+    let interval = null;
+    let soundOn = true;
 
-function showFinal() {
-  clearInterval(timer);
-  progressBar.style.width = "100%";
-  bgMusic.pause();
-  const stars = getStars(score, gameData.questions.length);
-  screen.innerHTML = `
-    <div class="card final-screen">
-      <div class="heart">❤️</div>
-      <h1>${gameData.finalTitle}</h1>
-      <div class="stars">${stars}</div>
-      <div class="final-message">${gameData.finalMessage}</div>
-      <div class="signature">— ${gameData.senderName}</div>
-    </div>
-  `;
-  applyTheme(currentTheme);
-  launchConfetti();
-}
+    const card = document.getElementById("game-card");
+    const timeEl = document.getElementById("time");
+    const scoreEl = document.getElementById("score");
+    const correctSound = document.getElementById("correctSound");
+    const wrongSound = document.getElementById("wrongSound");
+    const bgMusic = document.getElementById("bgMusic");
 
-/* ---------- STARS ---------- */
-function getStars(score, total) {
-  const ratio = score / total;
-  if (ratio === 1) return "⭐⭐⭐⭐⭐";
-  if (ratio >= 0.8) return "⭐⭐⭐⭐";
-  if (ratio >= 0.6) return "⭐⭐⭐";
-  if (ratio >= 0.4) return "⭐⭐";
-  return "⭐";
-}
+    /* ---------------- INIT ---------------- */
+    startGame();
 
-/* ---------- CONFETTI ---------- */
-function launchConfetti() {
-  const app = document.querySelector(".app");
-  for (let i = 0; i < 36; i++) {
-    const confetti = document.createElement("div");
-    confetti.className = "confetti";
-    confetti.style.left = Math.random() * 100 + "%";
-    confetti.style.background = `hsl(${Math.random()*360}, 80%, 60%)`;
-    confetti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
-    app.appendChild(confetti);
-  }
-}
+    function startGame() {
+      current = 0;
+      score = 0;
+      timer = 0;
+      scoreEl.textContent = score;
+      timeEl.textContent = timer;
+      clearInterval(interval);
+      interval = setInterval(() => {
+        timer++;
+        timeEl.textContent = timer;
+      }, 1000);
+      renderQuestion();
+    }
 
-/* ---------- AUDIO HELPERS ---------- */
-function playCorrect() {
-  correctSound.currentTime = 0;
-  correctSound.play().catch(()=>{});
-}
+    /* ---------------- RENDER QUESTION ---------------- */
+    function renderQuestion() {
+      const q = questions[current];
+      card.innerHTML = `
+        <div class="image-box">
+          <img src="${q.image}" alt="Soru Görseli">
+        </div>
+        <div class="question">${q.text}</div>
+        <div class="options">
+          <button class="option-btn" onclick="answer(0)">${q.options[0]}</button>
+          <button class="option-btn secondary" onclick="answer(1)">${q.options[1]}</button>
+        </div>
+      `;
+    }
 
-function playWrong() {
-  wrongSound.currentTime = 0;
-  wrongSound.play().catch(()=>{});
-}
+    /* ---------------- ANSWER ---------------- */
+    function answer(index) {
+      const buttons = document.querySelectorAll(".option-btn");
+      const q = questions[current];
 
-function playClick() {
-  clickSound.currentTime = 0;
-  clickSound.play().catch(()=>{});
-}
+      if (index === q.correct) {
+        if (soundOn) correctSound.play();
+        buttons[index].classList.add("correct");
+        score++;
+        scoreEl.textContent = score;
+        setTimeout(() => {
+          current++;
+          if (current < questions.length) {
+            renderQuestion();
+          } else {
+            endGame();
+          }
+        }, 700);
+      } else {
+        if (soundOn) wrongSound.play();
+        buttons[index].classList.add("wrong");
+        clearInterval(interval);
+        setTimeout(() => {
+          showRestart();
+        }, 700);
+      }
+    }
 
-/* ---------- INIT ---------- */
-buildThemeSelector();
-applyTheme(currentTheme);
-showIntro();
-</script>
+    /* ---------------- END GAME ---------------- */
+    function endGame() {
+      clearInterval(interval);
+      let stars = "⭐";
+      if (score >= 9) stars = "⭐⭐⭐⭐⭐";
+      else if (score >= 7) stars = "⭐⭐⭐⭐";
+      else if (score >= 5) stars = "⭐⭐⭐";
+      else if (score >= 3) stars = "⭐⭐";
+      else stars = "⭐";
 
+      card.innerHTML = `
+        <div class="result">
+          <h2>💖 Oyun Bitti!</h2>
+          <div class="stars">${stars}</div>
+          <p>${score}/10 doğru yaptın</p>
+          <p>⏱ ${timer} saniye sürdü</p>
+          <div class="center">
+            <button class="restart-btn" onclick="startGame()">🔄 Tekrar Oyna</button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ---------------- RESTART AFTER WRONG ---------------- */
+    function showRestart() {
+      card.innerHTML = `
+        <div class="result">
+          <h2>❌ Yanlış Cevap!</h2>
+          <p>Başa dönmek ister misin?</p>
+          <div class="center">
+            <button class="restart-btn" onclick="startGame()">🔄 Baştan Başla</button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ---------------- SOUND ---------------- */
+    function toggleSound() {
+      soundOn = !soundOn;
+      if (soundOn) {
+        bgMusic.play().catch(() => {});
+      } else {
+        bgMusic.pause();
+      }
+    }
+
+    /* ---------------- THEME ---------------- */
+    function openTheme() {
+      document.getElementById("theme-modal").classList.add("active");
+    }
+
+    function setTheme(theme) {
+      const root = document.documentElement;
+      if (theme === "romantic") {
+        root.style.setProperty("--bg1", "#ff6b81");
+        root.style.setProperty("--bg2", "#ffb8c6");
+      }
+      if (theme === "night") {
+        root.style.setProperty("--bg1", "#141e30");
+        root.style.setProperty("--bg2", "#243b55");
+      }
+      if (theme === "sunset") {
+        root.style.setProperty("--bg1", "#ff512f");
+        root.style.setProperty("--bg2", "#dd2476");
+      }
+      if (theme === "ocean") {
+        root.style.setProperty("--bg1", "#2193b0");
+        root.style.setProperty("--bg2", "#6dd5ed");
+      }
+      document.getElementById("theme-modal").classList.remove("active");
+    }
+
+    /* Close modal when clicking outside */
+    document.getElementById("theme-modal").addEventListener("click", e => {
+      if (e.target.id === "theme-modal") {
+        document.getElementById("theme-modal").classList.remove("active");
+      }
+    });
+  </script>
 </body>
 </html>
