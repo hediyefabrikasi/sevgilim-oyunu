@@ -38,7 +38,7 @@
 
     /* ---------- HEADER ---------- */
     .header {
-      margin-top: 28px; /* 🔽 Üstten aşağı aldık */
+      margin-top: 28px;
       margin-bottom: 16px;
       text-align: center;
       color: white;
@@ -300,7 +300,7 @@
           <div class="pill">🏆 <span id="score">0</span></div>
         </div>
         <div class="top-right">
-          <div class="pill clickable" onclick="toggleSound()">🔊</div>
+          <div class="pill clickable" id="sound-btn" onclick="toggleSound()">🔇</div>
           <div class="pill clickable" onclick="openTheme()">🎨 Tema</div>
         </div>
       </div>
@@ -399,7 +399,7 @@ const questions = [
     let score = 0;
     let timer = 0;
     let interval = null;
-    let soundOn = true;
+    let soundOn = false;
 
     const card = document.getElementById("game-card");
     const timeEl = document.getElementById("time");
@@ -407,6 +407,7 @@ const questions = [
     const correctSound = document.getElementById("correctSound");
     const wrongSound = document.getElementById("wrongSound");
     const bgMusic = document.getElementById("bgMusic");
+    const soundBtn = document.getElementById("sound-btn");
 
     /* ---------------- INIT ---------------- */
     startGame();
@@ -509,8 +510,10 @@ const questions = [
       soundOn = !soundOn;
       if (soundOn) {
         bgMusic.play().catch(() => {});
+        soundBtn.textContent = "🔊";
       } else {
         bgMusic.pause();
+        soundBtn.textContent = "🔇";
       }
     }
 
@@ -549,6 +552,3 @@ const questions = [
   </script>
 </body>
 </html>
-
-
-
