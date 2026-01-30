@@ -197,6 +197,23 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.25);
     }
 
+    /* ---------- START SCREEN ---------- */
+    .start-screen {
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .start-screen .image-box {
+      margin-bottom: 16px;
+    }
+
+    .start-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 14px;
+      color: #ff3b5c;
+    }
+
     /* ---------- THEME MODAL ---------- */
     .theme-modal {
       position: fixed;
@@ -400,6 +417,7 @@ const questions = [
     let timer = 0;
     let interval = null;
     let soundOn = false;
+    let started = false;
 
     const card = document.getElementById("game-card");
     const timeEl = document.getElementById("time");
@@ -410,9 +428,25 @@ const questions = [
     const soundBtn = document.getElementById("sound-btn");
 
     /* ---------------- INIT ---------------- */
-    startGame();
+    renderStartScreen();
+
+    /* ---------------- START SCREEN ---------------- */
+    function renderStartScreen() {
+      card.innerHTML = `
+        <div class="start-screen">
+          <div class="image-box">
+            <img src="images/q2.jpg" alt="Başlangıç Görseli">
+          </div>
+          <div class="start-title">Hazır mısın? 😏</div>
+          <div class="center">
+            <button class="restart-btn" onclick="startGame()">🚀 Oyuna Başla</button>
+          </div>
+        </div>
+      `;
+    }
 
     function startGame() {
+      started = true;
       current = 0;
       score = 0;
       timer = 0;
@@ -486,7 +520,7 @@ const questions = [
           <p>${score}/10 doğru yaptın</p>
           <p>⏱ ${timer} saniye sürdü</p>
           <div class="center">
-            <button class="restart-btn" onclick="startGame()">🔄 Tekrar Oyna</button>
+            <button class="restart-btn" onclick="renderStartScreen()">🔄 Tekrar Oyna</button>
           </div>
         </div>
       `;
@@ -499,7 +533,7 @@ const questions = [
           <h2>❌ Yanlış Cevap!</h2>
           <p>Başa dönmek ister misin?</p>
           <div class="center">
-            <button class="restart-btn" onclick="startGame()">🔄 Baştan Başla</button>
+            <button class="restart-btn" onclick="renderStartScreen()">🔄 Baştan Başla</button>
           </div>
         </div>
       `;
